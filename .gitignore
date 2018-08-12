@@ -1,0 +1,22 @@
+# dependencies
+node_modules
+
+# testing
+coverage
+
+# production
+build
+
+# misc
+.DS_Store
+.env
+npm-debug.log
+yarn-error.log
+_ignore
+env.sh
+
+# knex seed
+database/seeds
+
+# databases
+*.sqlite3

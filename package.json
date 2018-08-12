@@ -1,0 +1,62 @@
+{
+  "name": "softhaxi-node-koa-template",
+  "version": "1.0.0",
+  "description": "Softh Axi - Template for Node, Koa, and Passport",
+  "main": "index.js",
+  "engines": {
+    "node": "^8.11.3"
+  },
+  "scripts": {
+    "start": "node ./src/index.js",
+    "local": "gulp --gulpfile ./gulpfile.js",
+    "test": "./node_modules/mocha/bin/mocha ./test/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivohutasoit/softhaxi-node-koa-template.git"
+  },
+  "keywords": [
+    "\"Softh",
+    "Axi\"",
+    "Node",
+    "Koa",
+    "Passport",
+    "Template"
+  ],
+  "author": "Ivo Hutasoit <if09051@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivohutasoit/softhaxi-node-koa-template/issues"
+  },
+  "homepage": "https://github.com/ivohutasoit/softhaxi-node-koa-template#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-error": "^3.2.0",
+    "koa-logger": "^3.2.0",
+    "koa-passport": "^4.1.0",
+    "koa-pug": "^3.0.0-2",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.2",
+    "koa-view": "^2.1.1",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^7.4.3",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "eslint": "^5.3.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^5.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-nodemon": "^2.2.1",
+    "mocha": "^5.2.0"
+  }
+}
