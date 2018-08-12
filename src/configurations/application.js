@@ -30,7 +30,7 @@ const base = {
   /**
    * Application name
    */
-  name: process.env.APP_NAME || 'Softh Axi',
+  name: process.env.APP_NAME || 'Softh Axi Posting',
 
   /**
   * Application description
@@ -53,35 +53,35 @@ const specific = {
     /**
      * Running port
      */
-    port: 3000,
+    port: 4000,
 
     /**
      * Application name
      */
-    name: process.env.APP_NAME || 'Softh Axi - Development',
+    name: process.env.APP_NAME || 'Softh Axi Posting - Development',
   },
   test: {
     /**
      * Running port
      */
-    port: 3001,
+    port: 4001,
 
     /**
      * Application name
      */
-    name: process.env.APP_NAME || 'Softh Axi - Test Realm',
+    name: process.env.APP_NAME || 'Softh Axi Posting - Test Realm',
   },
   staging: {
     /**
      * Running port
      */
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 4000,
   },
   production: {
     /**
      * Running port
      */
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 4000,
   }
 }
 
