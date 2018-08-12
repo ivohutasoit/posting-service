@@ -1,7 +1,7 @@
 {
-  "name": "softhaxi-node-koa-template",
+  "name": "softhaxi-posting",
   "version": "1.0.0",
-  "description": "Softh Axi - Template for Node, Koa, and Passport",
+  "description": "Posting service provides some of updated status, info, todo, finance etc ",
   "main": "index.js",
   "engines": {
     "node": "^8.11.3"
@@ -13,22 +13,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivohutasoit/softhaxi-node-koa-template.git"
+    "url": "git+https://github.com/ivohutasoit/softhaxi-posting.git"
   },
   "keywords": [
-    "\"Softh",
-    "Axi\"",
+    "Softh Axi",
     "Node",
     "Koa",
     "Passport",
-    "Template"
+    "Social Networking",
+    "Community",
+    "Familly",
+    "Posting"
   ],
   "author": "Ivo Hutasoit <if09051@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ivohutasoit/softhaxi-node-koa-template/issues"
+    "url": "https://github.com/ivohutasoit/softhaxi-posting/issues"
   },
-  "homepage": "https://github.com/ivohutasoit/softhaxi-node-koa-template#readme",
+  "homepage": "https://github.com/ivohutasoit/softhaxi-posting#readme",
   "dependencies": {
     "bcrypt": "^3.0.0",
     "jsonwebtoken": "^8.3.0",
