@@ -21,7 +21,15 @@ function create(postData) {
   }).catch((error) => { throw error })
 }
 
+function update(postData) {
+  postData.updated_at = database.fn.now()
+  return database('posts').where({ id: postData.id, is_deleted: false })
+    .update(postData).then((data) => {
+      return findById(postData.id)
+    }).catch((error) => { throw error })
+}
+
 module.exports = {
   findById,
-  create
+  create, update
 }

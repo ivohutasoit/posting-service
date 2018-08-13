@@ -8,7 +8,7 @@ Softh Axi posting service provides some of updated status, info, todo, finance e
 1. [ ] Todo & Task Management
    - [x] Todo list by user
    - [x] Create a task
-   - [ ] Complete a task
+   - [x] Complete a task
    - [ ] Categorize a task
    - [ ] Task detail
    - [ ] Assign task

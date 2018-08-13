@@ -3,7 +3,7 @@
 const database = require('../configurations/connection')['database']
 
 function findByUserId(userId) {
-  return database('tasks').where({ created_by: userId, is_deleted: false })
+  return database('tasks').where({ created_by: userId })
     .orderBy('created_at', 'desc')
     .select().catch((error) => { throw error })
 
@@ -19,7 +19,7 @@ function findByUserId(userId) {
  * @param {String} id 
  */
 function findById(id) {
-  return database('tasks').where({ id: id, is_deleted: false }).first().catch((error) => { throw error })
+  return database('tasks').where({ id: id }).first().catch((error) => { throw error })
 }
 
 /**
@@ -38,7 +38,7 @@ function create(taskData) {
  * @param {Object} taskData 
  */
 function update(taskData) {
-  return database('tasks').where({ id: taskData.id, created_by: taskData.created_by, is_deleted: false })
+  return database('tasks').where({ id: taskData.id })
     .update(taskData).then((data) => {
       return findById(taskData.id)
     }).catch((error) => { throw error })
