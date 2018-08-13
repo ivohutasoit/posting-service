@@ -9,7 +9,7 @@ module.exports = {
     test: {
         client: 'sqlite3',
         connection: {
-          filename: '../dbtest.sqlite3'
+          filename: '../spsdbtest.sqlite3'
         },
         migrations: {
           directory: path.resolve(base, 'migrations', 'sqlite3'),
@@ -24,7 +24,7 @@ module.exports = {
       development: {
         client: 'sqlite3',
         connection: {
-          filename: '../dbdev.sqlite3'
+          filename: '../spsdbdev.sqlite3'
         },
         migrations: {
           directory: path.resolve(base, 'migrations', 'sqlite3'),
@@ -41,7 +41,7 @@ module.exports = {
       connection: {
         host: process.env.DATABASE_SERVER || 'localhost',
         port: process.env.DATABASE_PORT || 5432,
-        database: process.env.DATABASE_NAME || 'dbstag',
+        database: process.env.DATABASE_NAME || 'spsdbstag',
         user: process.env.DATABASE_USERNAME || 'username',
         password: process.env.DATABASE_PASSWORD || 'password',
         ssl: true
@@ -64,7 +64,7 @@ module.exports = {
       connection: {
         host: process.env.DATABASE_SERVER || 'localhost',
         port: process.env.DATABASE_PORT || 5432,
-        database: process.env.DATABASE_NAME || 'dbprod',
+        database: process.env.DATABASE_NAME || 'spsdbprod',
         user: process.env.DATABASE_USERNAME || 'username',
         password: process.env.DATABASE_PASSWORD || 'password',
         ssl: true
