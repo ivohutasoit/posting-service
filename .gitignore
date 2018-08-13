@@ -14,9 +14,11 @@ npm-debug.log
 yarn-error.log
 _ignore
 env.sh
+*debug.js
 
-# knex seed
+# knex
 database/seeds
+database/*/temp
 
 # databases
 *.sqlite3
