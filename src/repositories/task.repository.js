@@ -29,6 +29,15 @@ function findById(id) {
     .catch((error) => { throw error })
 }
 
+function findByIdAndCreatorId(id, creator_id) {
+  return database('posts').join('tasks', 'tasks.id', 'posts.id')
+    .where({ 'posts.id': id, 'posts.created_by': creator_id, 'posts.is_deleted': false, 'posts.class': 'TASK' })
+    .select('posts.id', 'posts.category_id', 'posts.title', 'tasks.state',
+      'tasks.completed', 'tasks.urgency', 'posts.created_by')
+    .first()
+    .catch((error) => { throw error })
+}
+
 /**
  * 
  * @param {Object} taskData 
@@ -52,6 +61,6 @@ function update(taskData) {
 }
 
 module.exports = {
-  findByUserId, findById,
+  findByUserId, findById, findByIdAndCreatorId,
   create, update
 }
