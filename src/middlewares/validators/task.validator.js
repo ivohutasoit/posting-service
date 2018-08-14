@@ -1,6 +1,7 @@
 'use strict'
 
 const categoryRepository = require('../../repositories/category.repository')
+const taskRepository = require('../../repositories/task.repository')
 
 async function validateForm(ctx, next) {
   const request = ctx.request.body
@@ -66,6 +67,36 @@ async function validateAction(ctx, next) {
   return next()
 }
 
+async function hasAccess(ctx, next) {
+  const id = ctx.params.id
+  const userId = ctx.state.user.id
+  // Task Creator
+  await taskRepository.findByUserId(userId).then((task) => {
+    if(!task) {
+      ctx.status = 401
+      ctx.body = {
+        status: 'ERROR',
+        message: 'Unauthorized'
+      }
+      return ctx
+    }
+
+    if(task.id !== id) {
+      ctx.status = 401
+      ctx.body = {
+        status: 'ERROR',
+        message: 'Unauthorized'
+      }
+      return ctx
+    }
+  }).catch((err) => {
+    ctx.status = 400 
+    ctx.body = { message: err.message || 'Error while getting tasks' }
+    return ctx
+  })
+  return next()
+}
+
 module.exports = {
-  validateForm, validateAction
+  validateForm, validateAction, hasAccess
 }

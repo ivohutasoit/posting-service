@@ -3,12 +3,12 @@
 const Router = require('koa-router')
 
 const authMiddlerware = require('../middlewares/auth.middleware')
-const todoRepository = require('../repositories/todo.repository')
+const taskRepository = require('../repositories/task.repository')
 
 const routes = new Router()
 
 routes.get('/', async(ctx) => {
-  await todoRepository.findByUserId(ctx.state.user.id).then((tasks) => {
+  await taskRepository.findByUserId(ctx.state.user.id).then((tasks) => {
     ctx.status = 200
     ctx.body = {
       status: 'SUCCESS',

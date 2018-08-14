@@ -3,15 +3,16 @@
 const database = require('../configurations/connection')['database']
 
 function findByUserId(userId) {
-  return database('tasks').where({ created_by: userId })
+  /* return database('tasks').where({ created_by: userId })
     .orderBy('created_at', 'desc')
-    .select().catch((error) => { throw error })
+    .select().catch((error) => { throw error }) */
 
-  /* return database('posts').join('tasks', 'tasks.id', 'posts.id')
-    .where({ 'posts.created_by': userId, 'posts.is_deleted': false })
-    .select('posts.id', 'posts.title', 'posts.content', 'tasks.remark', 'tasks.state',
+  return database('posts').join('tasks', 'tasks.id', 'posts.id')
+    .where({ 'posts.created_by': userId, 'posts.is_deleted': false, 'posts.class': 'TASK' })
+    .select('posts.id', 'posts.category_id', 'posts.title', 'tasks.state',
       'tasks.completed', 'tasks.urgency')
-    .catch((error) => { throw error }) */
+    .orderBy('posts.created_at', 'asc')
+    .catch((error) => { throw error })
 }
 
 /**
@@ -19,7 +20,13 @@ function findByUserId(userId) {
  * @param {String} id 
  */
 function findById(id) {
-  return database('tasks').where({ id: id }).first().catch((error) => { throw error })
+  /* return database('tasks').where({ id: id }).first().catch((error) => { throw error }) */
+  return database('posts').join('tasks', 'tasks.id', 'posts.id')
+    .where({ 'posts.id': id, 'posts.is_deleted': false, 'posts.class': 'TASK' })
+    .select('posts.id', 'posts.category_id', 'posts.title', 'tasks.state',
+      'tasks.completed', 'tasks.urgency')
+    .first()
+    .catch((error) => { throw error })
 }
 
 /**

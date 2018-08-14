@@ -110,6 +110,38 @@ routes.post('/:action', taskValidator.validateAction, async(ctx) => {
     await completeTask(ctx) 
 })
 
+routes.get('/:id', async(ctx) => {
+  await taskRepository.findById(ctx.params.id).then((task) => {
+    if(!task) {
+      ctx.status = 404
+      ctx.body = {
+        status: 'ERROR',
+        message: 'Not found'
+      }
+      return ctx
+    }
+
+    if(task.created_by !== ctx.state.user.id) {
+      ctx.status = 401
+      ctx.body = {
+        status: 'ERROR',
+        message: 'Unauthorized'
+      }
+      return ctx
+    }
+
+    ctx.status = 200
+    ctx.body = {
+      status: 'SUCCESS',
+      data: task
+    }
+    return ctx
+  })
+})
+
+//#endregion
+
+//#region Private Methods
 /**
  * 
  * @param {Object} ctx 
@@ -157,7 +189,6 @@ async function completeTask(ctx) {
     return ctx
   })
 }
-
 //#endregion
 
 module.exports = routes

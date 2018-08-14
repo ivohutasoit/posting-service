@@ -14,7 +14,7 @@ Softh Axi posting service provides some of updated status, info, todo, finance e
    - [x] Categorize a task
      - [ ] \(Optional) Delete a task category
      - [ ] \(Optional) Change task category
-   - [ ] Task detail
+   - [x] Task detail
    - [ ] Assign task
 
 ## References
