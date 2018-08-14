@@ -7,9 +7,13 @@ Softh Axi posting service provides some of updated status, info, todo, finance e
 ## Todo List
 1. [ ] Todo & Task Management
    - [x] Todo list by user
+     - [ ] \(Optional) Group by category
+     - [ ] \(Optional) Delete task
    - [x] Create a task
    - [x] Complete a task
-   - [ ] Categorize a task
+   - [x] Categorize a task
+     - [ ] \(Optional) Delete a task category
+     - [ ] \(Optional) Change task category
    - [ ] Task detail
    - [ ] Assign task
 

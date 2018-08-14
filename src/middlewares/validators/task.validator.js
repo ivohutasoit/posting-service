@@ -1,5 +1,7 @@
 'use strict'
 
+const categoryRepository = require('../../repositories/category.repository')
+
 async function validateForm(ctx, next) {
   const request = ctx.request.body
   var valid = true
@@ -7,6 +9,15 @@ async function validateForm(ctx, next) {
   if(!request.title) {
     if(valid) valid = false
     messages.title = 'required'
+  }
+
+  if(request.category_id) {
+    await categoryRepository.findById(request.category_id).then((category) => {
+      if(!category) {
+        if(valid) valid = false
+        messages.category_id = 'Not found'
+      }
+    })
   }
 
   if(!valid) {

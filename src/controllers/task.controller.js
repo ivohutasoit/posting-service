@@ -3,17 +3,72 @@
 const Router = require('koa-router')
 const uuid = require('uuid/v1')
 
+const categoryRepository = require('../repositories/category.repository')
 const postRepository = require('../repositories/post.repository')
 const taskRepository = require('../repositories/task.repository')
+const categoryValidator = require('../middlewares/validators/task.category.validator')
 const taskValidator = require('../middlewares/validators/task.validator')
 
 const routes = new Router()
+
+//#region Task Category
+
+routes.get('/category', async(ctx) => {
+  await categoryRepository.findTaskClassByUserId(ctx.state.user.id).then((categories) => {
+    ctx.status = 200
+    ctx.body = {
+      status: 'SUCCESS',
+      data: categories
+    }
+    return ctx
+  }).catch((err) => {
+    ctx.status = 400 
+    ctx.body = { message: err.message || 'Error while getting tasks' }
+    return ctx
+  })
+})
+
+routes.post('/category', categoryValidator.validateForm, async(ctx) => {
+  var categoryData = {
+    id: uuid(),
+    class: 'TASK',
+    code: ctx.request.body.code.toUpperCase(),
+    description: ctx.request.get.description,
+    created_by: ctx.state.user.id
+  }
+  await categoryRepository.create(categoryData).then((category) => {
+    if(!category) { }
+
+    ctx.status = 201
+    ctx.body = {
+      status: 'SUCCESS', 
+      data: {
+        id: category.id,
+        class: category.class,
+        code: category.code,
+        name: category.name,
+        description: description
+      }
+    }
+    return ctx
+  }).catch((err) => {
+    ctx.status = 400 
+    ctx.body = { message: err.message || 'Error while getting tasks' }
+    return ctx
+  })
+})
+
+//#endregion
+
+//#region Task Maintenance
 
 routes.post('/', taskValidator.validateForm, async(ctx) => {
   const request = ctx.request.body
   const postData = {
     id: uuid(),
     parent_id: request.parent_id,
+    class: 'TASK',
+    category_id: request.category_id,
     title: request.title,
     content: request.content,
     created_by: ctx.state.user.id
@@ -29,6 +84,7 @@ routes.post('/', taskValidator.validateForm, async(ctx) => {
         status: 'SUCCESS', 
         data: {
           id: task.id,
+          category_id: !post.category_id ? 'DEFAULT' : post.category_id,
           title: post.title,
           state: task.state,
           completed: task.completed,
@@ -101,5 +157,7 @@ async function completeTask(ctx) {
     return ctx
   })
 }
+
+//#endregion
 
 module.exports = routes
