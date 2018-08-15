@@ -4,7 +4,9 @@
   "description": "Posting service provides some of updated status, info, todo, finance etc ",
   "main": "index.js",
   "engines": {
-    "node": "^8.11.3"
+    "node": "^8.11.3",
+    "npm": "^6.3.0",
+    "yarn": "^1.9.4"
   },
   "scripts": {
     "start": "node ./src/index.js",
