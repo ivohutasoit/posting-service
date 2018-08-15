@@ -12,11 +12,11 @@ module.exports = {
           filename: '../spsdbtest.sqlite3'
         },
         migrations: {
-          directory: path.resolve(base, 'migrations', 'sqlite3'),
+          directory: path.resolve(base, 'migrations'),
           tableName: 'migrations'
         },
         seeds: {
-          directory: path.resolve(base, 'seeds', 'sqlite3')
+          directory: path.resolve(base, 'seeds')
         },
         useNullAsDefault: true
       },
@@ -27,11 +27,11 @@ module.exports = {
           filename: '../spsdbdev.sqlite3'
         },
         migrations: {
-          directory: path.resolve(base, 'migrations', 'sqlite3'),
+          directory: path.resolve(base, 'migrations'),
           tableName: 'migrations'
         },
         seeds: {
-          directory: path.resolve(base, 'seeds', 'sqlite3')
+          directory: path.resolve(base, 'seeds')
         },
         useNullAsDefault: true
       },
