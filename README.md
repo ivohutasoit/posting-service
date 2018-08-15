@@ -15,7 +15,8 @@ Softh Axi posting service provides some of updated status, info, todo, finance e
      - [ ] \(Optional) Delete a task category
      - [ ] \(Optional) Change task category
    - [x] Task detail
-   - [ ] Assign task
+   - [ ] Assign task 
+     - \(Depend to relation service) Find member in connection  
 
 ## References
 1. [Softh Axi Node Koa Template](https://github.com/ivohutasoit/softhaxi-node-koa-template)
