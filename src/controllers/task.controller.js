@@ -3,6 +3,7 @@
 const Router = require('koa-router')
 const uuid = require('uuid/v1')
 
+const assignmentRepository = require('../repositories/assignment.repository')
 const categoryRepository = require('../repositories/category.repository')
 const postRepository = require('../repositories/post.repository')
 const taskRepository = require('../repositories/task.repository')
@@ -79,6 +80,16 @@ routes.post('/', taskValidator.validateForm, async(ctx) => {
     if(!post) { } 
     await taskRepository.create(taskData).then(async(task) => {
       if(!task) { }
+
+      await assignmentRepository.create({ 
+        id: uuid(), 
+        task_id: task.id, 
+        user_id: ctx.state.user.id,
+        created_by: ctx.state.user.id 
+      }).catch((err) => {
+        console.log(err)
+      })
+
       ctx.status = 201
       ctx.body = {
         status: 'SUCCESS', 
@@ -93,9 +104,7 @@ routes.post('/', taskValidator.validateForm, async(ctx) => {
       }
       return ctx
     }).catch((err) => {
-      ctx.status = 400 
-      ctx.body = { message: err.message || 'Error while getting tasks' }
-      return ctx
+      console.log(err)
     })
   }).catch((err) => {
     ctx.status = 400 
