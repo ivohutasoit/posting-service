@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.string('id', 36).unsigned().primary()
     table.string('remark').nullable()
     table.string('state', 50).defaultTo('NEW')
+    table.integer('progress').defaultTo(0) // Used for nested task
     table.boolean('completed').notNullable().defaultTo(false)
     table.timestamp('start_time').nullable()
     table.timestamp('end_time').nullable()

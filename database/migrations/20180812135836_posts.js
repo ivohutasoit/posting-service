@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('parent_id', 36).nullable()
     table.string('class', 50).notNullable().defaultTo('POST')
     table.string('category_id', 36).unsigned()
+    table.string('group_id', 36).nullable()
     table.string('title', 100).notNullable()
     table.string('content').nullable()
     table.boolean('is_deleted').notNullable().defaultTo(false)
