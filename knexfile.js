@@ -1,5 +1,5 @@
 'use strict'
 
-const database = require('./src/configurations/database')
+const Database = require('./src/configurations/database');
 
-module.exports = database
+module.exports = Database

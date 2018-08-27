@@ -2,6 +2,10 @@
 
 const database = require('../configurations/connection')['database']
 
+/**
+ * @deprecated since version 1.1.0
+ * @param {string} userId 
+ */
 function findByUserId(userId) {
   /* return database('tasks').where({ created_by: userId })
     .orderBy('created_at', 'desc')
@@ -16,7 +20,7 @@ function findByUserId(userId) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} id 
  */
 function findById(id) {
@@ -29,6 +33,11 @@ function findById(id) {
     .catch((error) => { throw error })
 }
 
+/**
+ * @deprecated since version 1.1.0
+ * @param {String} id 
+ * @param {String} creator_id 
+ */
 function findByIdAndCreatorId(id, creator_id) {
   return database('posts').join('tasks', 'tasks.id', 'posts.id')
     .where({ 'posts.id': id, 'posts.created_by': creator_id, 'posts.is_deleted': false, 'posts.class': 'TASK' })
@@ -39,7 +48,7 @@ function findByIdAndCreatorId(id, creator_id) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {Object} taskData 
  */
 function create(taskData) {
@@ -50,7 +59,7 @@ function create(taskData) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {Object} taskData 
  */
 function update(taskData) {
@@ -60,6 +69,10 @@ function update(taskData) {
     }).catch((error) => { throw error })
 }
 
+/**
+ * @deprecated since version 1.1.0
+ * @since 1.0.0
+ */
 module.exports = {
   findByUserId, findById, findByIdAndCreatorId,
   create, update

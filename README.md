@@ -18,15 +18,15 @@ Softh Axi posting service provides some of updated status, info, todo, finance e
    - [x] Task detail
    - [ ] Assign task 
      - [x] \(Default) Personal task while creating if there is no assignee specified
+     - [x] Assign to task category
      - [ ] \(Depend to relation service) Find member in group  
-2. [ ] Refactoring project structure
-   - [ ] Routes
-   - [ ] Controllers
-   - [ ] Repositories
-   - [ ] configurations
-   - [ ] Middlewares
-   - [ ] Deprecated repositories
-   - [ ] Validators
+2. [x] Refactoring project structure
+   - [x] Routes
+   - [x] Controllers
+   - [x] configurations
+   - [x] Middlewares
+   - [x] Deprecated repositories
+   - [x] Validators
 
 ## References
 1. [Softh Axi Node Koa Template](https://github.com/ivohutasoit/softhaxi-node-koa-template)

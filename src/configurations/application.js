@@ -85,4 +85,7 @@ const specific = {
   }
 }
 
-module.exports = _.merge(base, specific[environment])
+/**
+ * @since 1.0.0
+ */
+module.exports = _.merge(base, specific[environment]);

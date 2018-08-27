@@ -1,27 +1,25 @@
 'use strict'
 
-const Koa = require('koa')
-const bodyParser = require('koa-bodyparser')
-const errorHandler = require("koa-error")
-const logger = require("koa-logger")
-const session = require('koa-session')
+const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
+const errorHandler = require("koa-error");
+const logger = require("koa-logger");
+const session = require('koa-session');
 
-const application = require('./configurations/application')
-const authentication =  require('./configurations/authentication')
-const routes = require('./configurations/routes')
-const view = require('./configurations/view')
+const { Application, View } = require('./configurations');
+const { Route } = require('./middlewares');
 
 const app = new Koa()
 
 // session
-if (!application.keys) { throw new Error("Please add session secret key in the config file!"); }
-  app.keys = application.keys
+if (!Application.keys) { throw new Error("Please add session secret key in the config file!"); }
+  app.keys = Application.keys;
 // app.use(session({ store: new RedisStore() },app))
-app.use(session(app))
+app.use(session(app));
 
 // Authentication
-app.use(authentication.initialize())
-app.use(authentication.session())
+//app.use(authentication.initialize())
+//app.use(authentication.session())
 
 // Body parser
 app.use(bodyParser())
@@ -33,12 +31,15 @@ app.use(logger())
 app.use(errorHandler())
 
 // View
-view.use(app)
+View.use(app)
 
 // Routes
-app.use(routes.routes())
-app.use(routes.allowedMethods())
+app.use(Route.routes())
+app.use(Route.allowedMethods())
 
-module.exports = app.listen(application.port, () => {
-  console.log(`Server's listen on port ${application.port}`)
-})
+/**
+ * @since 1.0.0
+ */
+module.exports = app.listen(Application.port, () => {
+  console.log(`Server's listen on port ${Application.port}`)
+});

@@ -3,7 +3,7 @@
 const database = require('../configurations/connection')['database']
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} id 
  */
 function findById(id) {
@@ -11,7 +11,7 @@ function findById(id) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {Object} postData 
  */
 function create(postData) {
@@ -21,6 +21,10 @@ function create(postData) {
   }).catch((error) => { throw error })
 }
 
+/**
+ * @deprecated since version 1.1.0
+ * @param {Object} postData 
+ */
 function update(postData) {
   postData.updated_at = database.fn.now()
   return database('posts').where({ id: postData.id, is_deleted: false })
@@ -29,6 +33,10 @@ function update(postData) {
     }).catch((error) => { throw error })
 }
 
+/**
+ * @deprecated since version 1.1.0
+ * @since 1.0.0
+ */
 module.exports = {
   findById,
   create, update

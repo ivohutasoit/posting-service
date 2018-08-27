@@ -3,7 +3,7 @@
 const database = require('../configurations/connection')['database']
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} id 
  */
 function findById(id) {
@@ -12,7 +12,7 @@ function findById(id) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {Object} assignData 
  */
 function create(assignData) {
@@ -22,6 +22,10 @@ function create(assignData) {
   }).catch((error) => { throw error })
 }
 
+/**
+ * @deprecated since version 1.1.0
+ * @since 1.0.0
+ */
 module.exports = {
   findById,
   create

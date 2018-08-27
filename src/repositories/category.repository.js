@@ -3,14 +3,14 @@
 const database = require('../configurations/connection')['database']
 
 /**
- * 
+ * @deprecated since version 1.1.0
  */
 function list() {
   return database('categories').where({ is_deleted: false }).select().catch((error) => { throw error })
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} userId 
  */
 function findByUserId(userId) {
@@ -19,7 +19,7 @@ function findByUserId(userId) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} userId 
  */
 function findTaskClassByUserId(userId) {
@@ -28,7 +28,7 @@ function findTaskClassByUserId(userId) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} id 
  */
 function findById(id) {
@@ -36,7 +36,7 @@ function findById(id) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {Object} categoryData 
  */
 function create(categoryData) {
@@ -46,6 +46,10 @@ function create(categoryData) {
   }).catch((error) => { throw error })
 }
 
+/**
+ * @deprecated since version 1.1.0
+ * @since 1.0.0
+ */
 module.exports = {
   list, findByUserId, findTaskClassByUserId, findById,
   create
