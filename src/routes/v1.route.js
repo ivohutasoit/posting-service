@@ -2,8 +2,8 @@
 
 const Router = require('koa-router');
 
-const ThirdParty = require('../middlewares/thirdparty.middleware');
 const Controller = require('../controllers');
+const ThirdParty = require('../middlewares/thirdparty.middleware');
 const Validator = require('../validators');
 
 const v1 = new Router({ prefix: '/api/v1'});

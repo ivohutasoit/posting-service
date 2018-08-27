@@ -92,16 +92,17 @@ async function create(ctx) {
         .insert({
           id: post.id
         });
-      console.log(post);
-      console.log(task);
-      return {
-        id: task.id,
-        category_id: !post.category_id ? 'DEFAULT' : post.category_id,
-        title: post.title,
-        state: task.state,
-        completed: task.completed,
-        urgency: task.urgency
-      }
+      return Task.query()
+          .join('posts', 'posts.id', 'tasks.id')
+          .leftJoin('categories', 'categories.id', 'posts.category_id')
+          .where('posts.id', post.id)
+          .andWhere('posts.is_deleted', false)
+          .andWhere('posts.class', 'TASK')
+          .select('posts.id', 'categories.id as category_id', 'categories.code as category_code', 
+                  'posts.title', 'tasks.remark', 'tasks.state', 'tasks.progress', 'tasks.completed', 'tasks.start_time', 
+                  'tasks.end_time', 'tasks.urgency', 'posts.created_at', 'posts.created_by', 'posts.updated_at', 
+                  'posts.updated_by')
+          .first();
     });
 
     if(task) {
