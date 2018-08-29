@@ -98,7 +98,7 @@ async function create(ctx) {
           .where('posts.id', post.id)
           .andWhere('posts.is_deleted', false)
           .andWhere('posts.class', 'TASK')
-          .select('posts.id', 'categories.id as category_id', 'categories.code as category_code', 
+          .select('posts.id', 'categories.id as category_id', 'categories.code as category_code', 'posts.group_id', 
                   'posts.title', 'tasks.remark', 'tasks.state', 'tasks.progress', 'tasks.completed', 'tasks.start_time', 
                   'tasks.end_time', 'tasks.urgency', 'posts.created_at', 'posts.created_by', 'posts.updated_at', 
                   'posts.updated_by')
@@ -106,6 +106,11 @@ async function create(ctx) {
     });
 
     if(task) {
+      if(task.group_id) {
+        delete task.category_id;
+        delete task.category_name;
+      }
+      
       ctx.status = 201
       ctx.body = {
         status: 'SUCCESS', 
@@ -214,44 +219,74 @@ async function complete(ctx) {
  * @param {Object} ctx 
  */
 async function assign(ctx) {
+  const req = ctx.request.body;
+  if(req.assign_type === 'CATEGORY') {
+    this.assignToCategory(ctx);
+  } else if(req.assign_type === 'GROUPMEMBER') {
+    this.assignToGroupMember(ctx);
+  }
+}
+
+/**
+ * Assign task to category
+ * 
+ * @since 1.1.0
+ * @param {Object} ctx 
+ */
+async function assignToCategory(ctx) {
   try {
     const req = ctx.request.body;
-    if(req.assign_type === 'CATEGORY') {
-      const task = await transaction(Post, Task, async(Post, Task) => {
-        await Post.query()
+    const task = await transaction(Post, Task, async(Post, Task) => {
+      await Post.query()
+        .update({
+          category_id: req.assign_to,
+          updated_by: ctx.state.user.id
+        }).where('id', req.task_id);
+      
+      if(req.remark) {
+        await Task.query()
           .update({
-            category_id: req.assign_to,
-            updated_by: ctx.state.user.id
+            remark: req.remark
           }).where('id', req.task_id);
-        
-        if(req.remark) {
-          await Task.query()
-            .update({
-              remark: req.remark
-            }).where('id', req.task_id);
-        }
+      }
 
-        return Task.query()
-          .join('posts', 'posts.id', 'tasks.id')
-          .leftJoin('categories', 'categories.id', 'posts.category_id')
-          .where('posts.id', req.task_id)
-          .andWhere('posts.is_deleted', false)
-          .andWhere('posts.class', 'TASK')
-          .select('posts.id', 'categories.id as category_id', 'categories.code as category_code', 
-                  'posts.title', 'tasks.remark', 'tasks.state', 'tasks.progress', 'tasks.completed', 'tasks.start_time', 
-                  'tasks.end_time', 'tasks.urgency', 'posts.created_at', 'posts.created_by', 'posts.updated_at', 
-                  'posts.updated_by')
-          .first();
-      });
-      ctx.state = 200;
-      ctx.body = { status: 'SUCCESS', data: task };
-    }
+      return Task.query()
+        .join('posts', 'posts.id', 'tasks.id')
+        .leftJoin('categories', 'categories.id', 'posts.category_id')
+        .where('posts.id', req.task_id)
+        .andWhere('posts.is_deleted', false)
+        .andWhere('posts.class', 'TASK')
+        .select('posts.id', 'categories.id as category_id', 'categories.code as category_code', 
+                'posts.title', 'tasks.remark', 'tasks.state', 'tasks.progress', 'tasks.completed', 'tasks.start_time', 
+                'tasks.end_time', 'tasks.urgency', 'posts.created_at', 'posts.created_by', 'posts.updated_at', 
+                'posts.updated_by')
+        .first();
+    });
+    ctx.state = 200;
+    ctx.body = { status: 'SUCCESS', data: task };
   } catch(err) {
     console.log(err);
     ctx.status = 400;
     ctx.body = { status: 'ERROR' , message: err.message || 'Error while getting tasks' };
   }
 }
+
+/**
+ * Assing task to a group member
+ * 
+ * @since 1.1.0 
+ * @param {Object} ctx 
+ */
+async function assignToGroupMember(ctx) {
+  try {
+
+  } catch(err) {
+    console.log(err);
+    ctx.status = 400;
+    ctx.body = { status: 'ERROR' , message: err.message || 'Error while getting tasks' };
+  }
+}
+
 //#endregion
 
 //#region Private Methods

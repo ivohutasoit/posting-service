@@ -20,19 +20,30 @@ async function validateCreate(ctx, next) {
     messages.title = 'required';
   }
 
-  if(req.category_id) {
-    const category = await Category.query()
-      .where('id', req.category_id)
-      .andWhere('created_by', ctx.state.user.id)
-      .andWhere('is_deleted', false)
-      .first();
-    if(!category) {
-      if(valid) valid = false;
-      messages.category_id = 'Not found';
+  if(!req.group_id) {
+    if(req.category_id) {
+      const category = await Category.query()
+        .where('id', req.category_id)
+        .andWhere('created_by', ctx.state.user.id)
+        .andWhere('is_deleted', false)
+        .first();
+      if(!category) {
+        if(valid) valid = false;
+        messages.category_id = 'Not found';
+      }
     }
+  } else {
+    delete ctx.request.body.category_id;
   }
 
   if(!valid) {
+    if(!req.group_id) {
+      messages.group_id = 'optional';
+    }
+    if(!req.group_id && !messages.category_id) {
+      messages.category_id = 'required. If \'group_id\' was not spesified';
+    }
+
     ctx.status = 400
     ctx.body = {
       status: 'ERROR',

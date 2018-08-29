@@ -14,6 +14,7 @@ async function list(ctx) {
           .where('posts.created_by', ctx.state.user.id)
           .andWhere('posts.is_deleted', false)
           .andWhere('posts.class', 'TASK')
+          .andWhereRaw('posts.group_id IS ?', [null])
           .andWhereRaw('posts.parent_id IS ?', [null])
           .select('posts.id', 'categories.id as category_id', 'categories.code as category_code', 
             'posts.title', 'tasks.state', 'tasks.progress', 'tasks.completed', 'tasks.start_time', 'tasks.end_time', 'tasks.urgency')

@@ -19,7 +19,7 @@ v1.get('/todo/task/category', ThirdParty.authenticatedUser,
 v1.post('/todo/task/complete', ThirdParty.authenticatedUser,
     Validator.task.validateComplete, Controller.Task.complete);
 v1.post('/todo/task/assign', ThirdParty.authenticatedUser,
-    Validator.task.validateAssignment, Controller.Task.assign);
+    Validator.assignment.validateCreate, Controller.Assignment.create);
 v1.get('/todo/task/:id', ThirdParty.authenticatedUser, 
     Controller.Task.detail);
 
