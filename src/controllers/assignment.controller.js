@@ -1,8 +1,9 @@
 'use strict'
 
 const { transaction } = require('objection');
+const uuid = require('uuid/v1');
 
-const { Category, Post, Task } = require('../models');
+const { Assignment, Category, Post, Task } = require('../models');
 
 /**
  * @since 1.1.0
@@ -80,7 +81,35 @@ async function assignToCategory(ctx) {
  */
 async function toGroupMember(ctx) {
   try {
+    const req = ctx.request.body;
+    var assignee = await Assignment.query()
+      .insert({
+        id: uuid(),
+        post_id: req.task_id,
+        group_id: req.group_id,
+        user_id: req.assign_to,
+        role: req.role,
+        created_by: ctx.state.user.id
+      });
     
+    if(assignee) {
+      ctx.status = 201;
+      ctx.body = { status: 'SUCCESS', 
+        message: `Task has been assigned to group member ${req.username}`,
+        data: {
+          id: assignee.id,
+          user: {
+            id: req.assign_to,
+            username: req.username
+          },
+          group: {
+            id: req.group_id,
+            name: req.group_name,
+          },
+          as: assignee.role
+        }
+      };
+    }
   } catch(err) {
     console.log(err);
     ctx.status = 400;

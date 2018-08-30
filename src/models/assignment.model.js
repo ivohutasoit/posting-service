@@ -18,3 +18,5 @@ class Assignment extends Model {
       this.updated_at = Connection.database.fn.now();
     }
 }
+
+module.exports = Assignment;

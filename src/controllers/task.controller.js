@@ -19,7 +19,7 @@ async function createCategory(ctx) {
       class: 'TASK',
       code: ctx.request.body.code.toUpperCase(),
       is_active: true,
-      description: lodash.capitalize(ctx.request.body.description),
+      description: lodash.startCase(ctx.request.body.description),
       created_by: ctx.state.user.id
     });
     if(category) {
@@ -108,9 +108,10 @@ async function create(ctx) {
     if(task) {
       if(task.group_id) {
         delete task.category_id;
-        delete task.category_name;
+        delete task.category_code;
+      } else {
+        delete task.group_id;
       }
-      
       ctx.status = 201
       ctx.body = {
         status: 'SUCCESS', 
@@ -136,8 +137,8 @@ async function detail(ctx) {
                 .where('posts.id', ctx.params.id)
                 .andWhere('posts.is_deleted', false)
                 .andWhere('posts.class', 'TASK')
-                .select('posts.id', 'categories.id as category_id', 'categories.code as category_code', 
-                        'posts.title', 'tasks.state', 'tasks.progress', 'tasks.completed', 'tasks.start_time', 
+                .select('posts.id', 'categories.id as category_id', 'categories.code as category_code', 'posts.title', 
+                        'tasks.remark', 'tasks.state', 'tasks.progress', 'tasks.completed', 'tasks.start_time', 
                         'tasks.end_time', 'tasks.urgency', 'posts.created_at', 'posts.created_by', 'posts.updated_at', 
                         'posts.updated_by')
                 .first();

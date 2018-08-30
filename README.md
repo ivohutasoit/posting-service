@@ -16,10 +16,10 @@ Softh Axi posting service provides some of updated status, info, todo, finance e
      - [ ] \(Optional) Delete a task category
      - [ ] \(Optional) Change task category
    - [x] Task detail
-   - [ ] Assign task 
+   - [x] Assign task 
      - [x] \(Default) Personal task while creating if there is no assignee specified
      - [x] Assign to task category
-     - [ ] \(Depend to relation service) Find member in group  
+     - [x] \(Depend to relation service) Find member in group  
 2. [x] Refactoring project structure
    - [x] Routes
    - [x] Controllers

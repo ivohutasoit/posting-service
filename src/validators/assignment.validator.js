@@ -49,28 +49,62 @@ async function validateCreate(ctx, next) {
           ctx.request.body.assign_type = 'CATEGORY';
         }
       } else { // Group Task
-        if(task.completed === 1) {
+        if(task.completed === 1) { // 1. Check completed task
           if(valid) valid = false;
-          messages.user_id = 'already completed';
-        } else if(task.created_by !== ctx.state.user.id) {
-          // 1. Check assigner user if can assign or not
-          // 1.1. Author (creator)
+          messages.assign_to = 'already completed';
+        } else if(task.created_by !== ctx.state.user.id) { // 2. Check task user access
+          // 2.1. Author (creator)
           if(valid) valid = false;
-          messages.user_id = 'access denied';
-        } else {
-          // 2. Check assignee user if already assigned
+          messages.assign_to = 'access denied';
+        } else { // 3. Check assignee user
+          // 3.1. Check assignee user if already assigned
+          const role = !req.role ? 'ASSIGNEE' : req.role.toUpperCase();
+          ctx.request.body.role = role;
           const assignment = await Assignment.query()
             .where('post_id', task.id)
             .andWhere('group_id', task.group_id)
-            .andWhere('user_id', req.user_id)
+            .andWhere('user_id', req.assign_to)
+            .andWhere('role', role)
             .andWhere('completed', false)
             .andWhere('is_deleted', false)
             .first();
           if(assignment) {
             if(valid) valid = false;
-            messages.user_id = 'already assigned';
-          } else {
+            messages.assign_to = 'already assigned';
+          } else { // 3.2. Check if auth user and assignee is same group to task group
+            const uri = process.env.API_RELATION_URI || 'http://localhost:5000/api/v1';
+            const options = {
+              method: 'POST',
+              uri: uri + "/group/relation/verify",
+              body: {
+                group_id: task.group_id,
+                user_id: req.assign_to
+              },
+              json: true,
+              headers: {
+                authorization: `Bearer ${ctx.headers.authorization.split(' ')[1]}`,
+              }
+            };
             
+            await request(options).then((res) => {
+              if(res.status === 'SUCCESS') {
+                if(res.data.same_group === true) {
+                  ctx.request.body.assign_type = 'GROUPMEMBER';
+                  ctx.request.body.username = res.data.user.username;
+                  ctx.request.body.group_id = res.data.group.id;
+                  ctx.request.body.group_name = res.data.group.name;
+                } else {
+                  if(valid) valid = false;
+                  messages.assign_to = 'access denied';
+                }
+              } else {
+                if(valid) valid = false;
+                messages.assign_to = 'access denied';
+              }
+            }).catch((err) => { 
+              if(valid) valid = false;
+              messages.assign_to = err.error.message || err.message;
+            });
           }
         }
       }

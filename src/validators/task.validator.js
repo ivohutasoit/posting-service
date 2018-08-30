@@ -3,8 +3,6 @@
 const request = require('request-promise');
 const { Category, Post, Task } = require('../models');
 
-const categoryRepository = require('../repositories/category.repository')
-const taskRepository = require('../repositories/task.repository')
 
 /**
  * @since 1.0.0
@@ -32,8 +30,33 @@ async function validateCreate(ctx, next) {
         messages.category_id = 'Not found';
       }
     }
-  } else {
-    delete ctx.request.body.category_id;
+  } else { // 2. Check group
+    const uri = process.env.API_RELATION_URI || 'http://localhost:5000/api/v1';
+    const options = {
+      method: 'POST',
+      uri: uri + "/group/profile",
+      body: {
+        group_id: req.group_id,
+      },
+      json: true,
+      headers: {
+        authorization: `Bearer ${ctx.headers.authorization.split(' ')[1]}`,
+      }
+    };
+    
+    await request(options).then((res) => {
+      if(res.status === 'SUCCESS') {
+        const group = res.data;
+        ctx.request.body.group_name = group.name;
+        delete ctx.request.body.category_id;
+      } else {
+        if(valid) valid = false;
+        messages.group_id = 'not found';
+      }
+    }).catch((err) => { 
+      if(valid) valid = false;
+      messages.group_id = err.error.message || err.message;
+    });
   }
 
   if(!valid) {
